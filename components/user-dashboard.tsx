@@ -17,6 +17,10 @@ export function UserDashboard() {
     dispatch(fetchUsers());
   }, [dispatch]);
 
+  const toggleView = () => {
+    dispatch(setView(view === 'grid' ? 'list' : 'grid'));
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
@@ -36,6 +40,7 @@ export function UserDashboard() {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
+        {/* Search Input */}
         <input
           type="text"
           placeholder="Search users..."
@@ -43,28 +48,19 @@ export function UserDashboard() {
           onChange={(e) => dispatch(setSearchQuery(e.target.value))}
           className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 max-w-xs w-full"
         />
-        <div className="flex gap-2">
-          <button
-            onClick={() => dispatch(setView('grid'))}
-            className={`p-2 rounded ${
-              view === 'grid' ? 'bg-blue-100 text-blue-600' : 'text-gray-600'
-            }`}
-            aria-label="Grid view"
-          >
-            <Grid2X2 className="h-5 w-5" />
-          </button>
-          <button
-            onClick={() => dispatch(setView('list'))}
-            className={`p-2 rounded ${
-              view === 'list' ? 'bg-blue-100 text-blue-600' : 'text-gray-600'
-            }`}
-            aria-label="List view"
-          >
-            <List className="h-5 w-5" />
-          </button>
-        </div>
+
+        {/* Single Toggle Button */}
+        <button
+          onClick={toggleView}
+          className="p-2 rounded bg-blue-100 text-blue-600 flex items-center gap-2"
+          aria-label="Toggle view"
+        >
+          {view === 'grid' ? <List className="h-5 w-5" /> : <Grid2X2 className="h-5 w-5" />}
+          {/* <span>{view === 'grid' ? 'List View' : 'Grid View'}</span> */}
+        </button>
       </div>
 
+      {/* User List/Grid View */}
       <div
         className={
           view === 'grid'
